@@ -33,6 +33,11 @@ public class UndertowServer extends WebServer {
 
         // set handler
         builder.setHandler(exchange -> {
+            long startRequestTime = 0;
+            if (isDebugMode()) {
+                startRequestTime = System.currentTimeMillis();
+            }
+
             HttpRequest httpRequest = new HttpRequest(exchange);
             WebServlet servlet = ServletRegister.getServletOrDefault(exchange.getRelativePath());
             HttpResponse response = servlet.handleRequest(httpRequest);
@@ -44,6 +49,11 @@ public class UndertowServer extends WebServer {
 
             exchange.setStatusCode(response.getCode());
             exchange.getResponseSender().send(response.getMsg());
+
+            if (isDebugMode()) {
+                System.out.println("Request handle time " + (System.currentTimeMillis() - startRequestTime)
+                        + "ms for request: " + httpRequest.getRequestRoute());
+            }
         });
 
         // set buffer size

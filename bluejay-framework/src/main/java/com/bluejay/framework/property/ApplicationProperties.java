@@ -8,32 +8,34 @@ import java.util.Set;
 
 public class ApplicationProperties {
     private static final String DEFAULT_PROPERTY_FILE = "application.properties";
-    private static Map<String, Object> properties;
+    private static Map<String, String> properties;
 
     static {
         properties = new HashMap<>();
     }
 
-    public static Object getProperty(String propertyKey) {
-        return properties.get(propertyKey);
-    }
-
-    public static String getPropertyAsString(String key) {
-        Object value = properties.get(key);
-        if (value instanceof String) {
-            return (String) value;
-        }
-
-        return null;
+    public static String getProperty(String key) {
+        return properties.get(key);
     }
 
     public static int getPropertyAsInteger(String key) {
-        Object value = properties.get(key);
-        if (value instanceof Integer) {
-            return (int) value;
+        String value = properties.get(key);
+        if (value != null) {
+            return Integer.parseInt(value);
         }
 
-        return -1;
+        return 0;
+    }
+
+    public static boolean getPropertyAsBoolean(String key) {
+        String value = properties.get(key);
+        return value != null && Boolean.parseBoolean(value);
+    }
+
+    public static void setProperty(String key, String value) {
+        if (!properties.containsKey(key)) {
+            properties.put(key, value);
+        }
     }
 
     public static void loadProperties(Class<?> clazz, String fileName) {

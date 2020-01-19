@@ -1,8 +1,7 @@
 package com.bluejay.framework;
 
-import com.bluejay.framework.property.AppPropertiesEnum;
 import com.bluejay.framework.property.ApplicationProperties;
-import com.bluejay.server.UndertowServer;
+import com.bluejay.framework.property.PropertiesEnum;
 import com.bluejay.server.WebServer;
 import com.bluejay.server.WebServerConfig;
 
@@ -54,7 +53,8 @@ public class BlueJayFramework {
         config = createOrOverrideWebServerConfig(config);
 
         // start web server.
-        WebServer server = new UndertowServer(config);
+        WebServer server = WebServer.getServerByString(config.getServerOption(), config);
+        server.setDebugMode(config.isServerDebugMode());
         server.start();
 
         try {
@@ -68,7 +68,6 @@ public class BlueJayFramework {
         // start application.
         blueJayApplication.setWebServer(server);
         blueJayApplication.start();
-        System.out.println("get prop form system: " + System.getProperty("bluejay.server.port"));
     }
 
     private WebServerConfig createOrOverrideWebServerConfig(WebServerConfig config) {
@@ -76,51 +75,27 @@ public class BlueJayFramework {
             config = new WebServerConfig();
         }
 
-        int serverPort = config.getPort();
-        String serverHostname = config.getHostname();
-        int serverNumberOfWorkers = config.getNumberOfWorkers();
-        int serverBufferSize = config.getBufferSize();
-
         // Override params with params form application properties
         if (ApplicationProperties.isSet()) {
-            if (serverPort == 0) {
-                serverPort = ApplicationProperties.getPropertyAsInteger(AppPropertiesEnum.SERVER_PORT.getPropertyName());
-            }
-
-            if (serverHostname == null || serverHostname.isEmpty()) {
-                serverHostname = ApplicationProperties.getPropertyAsString(AppPropertiesEnum.SERVER_HOSTNAME.getPropertyName());
-            }
-
-            if (serverNumberOfWorkers == 0) {
-                serverNumberOfWorkers = ApplicationProperties.getPropertyAsInteger(AppPropertiesEnum.SERVER_WORKERS.getPropertyName());
-            }
-
-            if (serverBufferSize == 0) {
-                serverBufferSize = ApplicationProperties.getPropertyAsInteger(AppPropertiesEnum.SERVER_BUFFER_SIZE.getPropertyName());
-            }
+            WebServerConfig overrideConfig = new WebServerConfig();
+            overrideConfig.setPort(ApplicationProperties.getPropertyAsInteger(PropertiesEnum.SERVER_PORT.getPropertyName()));
+            overrideConfig.setHostname(ApplicationProperties.getProperty(PropertiesEnum.SERVER_HOSTNAME.getPropertyName()));
+            overrideConfig.setNumberOfWorkers(ApplicationProperties.getPropertyAsInteger(PropertiesEnum.SERVER_WORKERS.getPropertyName()));
+            overrideConfig.setBufferSize(ApplicationProperties.getPropertyAsInteger(PropertiesEnum.SERVER_BUFFER_SIZE.getPropertyName()));
+            overrideConfig.setServerDebugMode(ApplicationProperties.getPropertyAsBoolean(PropertiesEnum.SERVER_DEBUG.getPropertyName()));
+            overrideConfig.setServerOption(ApplicationProperties.getProperty(PropertiesEnum.SERVER_OPTION.getPropertyName()));
+            config.overrideAndUserDefault(overrideConfig);
         }
 
-        // At the end override paranms with default values if not set.
-        if (serverPort == 0) {
-            serverPort = (int) AppPropertiesEnum.SERVER_PORT.getDefaultValue();
-        }
-
-        if (serverHostname == null || serverHostname.isEmpty()) {
-            serverHostname = (String) AppPropertiesEnum.SERVER_HOSTNAME.getDefaultValue();
-        }
-
-        if (serverNumberOfWorkers == 0) {
-            serverNumberOfWorkers = (int) AppPropertiesEnum.SERVER_WORKERS.getDefaultValue();
-        }
-
-        if (serverBufferSize == 0) {
-            serverBufferSize = (int) AppPropertiesEnum.SERVER_BUFFER_SIZE.getDefaultValue();
-        }
-
-        config.setPort(serverPort);
-        config.setHostname(serverHostname);
-        config.setNumberOfWorkers(serverNumberOfWorkers);
-        config.setBufferSize(serverBufferSize);
+        // At the end override params with default values if not set.
+        WebServerConfig defaultConfig = new WebServerConfig();
+        defaultConfig.setPort((int) PropertiesEnum.SERVER_PORT.getDefaultValue());
+        defaultConfig.setHostname((String) PropertiesEnum.SERVER_HOSTNAME.getDefaultValue());
+        defaultConfig.setNumberOfWorkers((int) PropertiesEnum.SERVER_WORKERS.getDefaultValue());
+        defaultConfig.setBufferSize((int) PropertiesEnum.SERVER_BUFFER_SIZE.getDefaultValue());
+        defaultConfig.setServerOption((String) PropertiesEnum.SERVER_OPTION.getDefaultValue());
+        defaultConfig.setServerDebugMode((boolean) PropertiesEnum.SERVER_DEBUG.getDefaultValue());
+        config.overrideAndUserDefault(defaultConfig);
 
         return config;
     }

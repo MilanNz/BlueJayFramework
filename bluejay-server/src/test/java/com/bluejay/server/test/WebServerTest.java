@@ -1,11 +1,7 @@
 package com.bluejay.server.test;
 
-import com.bluejay.server.UndertowServer;
-import com.bluejay.server.WebServer;
-import com.bluejay.server.WebServerConfig;
 import com.bluejay.server.http.HttpRequest;
 import com.bluejay.server.http.HttpResponse;
-import com.bluejay.server.http.ServletRegister;
 import com.bluejay.server.servlet.WebServlet;
 import com.bluejay.server.utils.JsonObject;
 import org.junit.Test;
