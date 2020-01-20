@@ -10,13 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bluejay-framework</artifactId>
-    <groupId>com.eclard</groupId>
+    <groupId>com.bluejay</groupId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>com.eclard</groupId>
+            <groupId>com.bluejay</groupId>
             <artifactId>bluejay-server</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
