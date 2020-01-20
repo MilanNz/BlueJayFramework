@@ -106,6 +106,7 @@ public class BlueJayApplication {
 
         WebServerConfig config = webServer.getWebServerConfig();
         if (config != null) {
+            System.out.println(config.toString());
             System.out.println("Server is running on " + config.getHostname() + ":" + config.getPort());
         }
 

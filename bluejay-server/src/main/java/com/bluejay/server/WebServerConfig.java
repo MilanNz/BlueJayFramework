@@ -67,13 +67,13 @@ public class WebServerConfig {
 
     @Override
     public String toString() {
-        return "WebServerConfig{" +
-                "serverOption='" + serverOption + '\'' +
+        return "WebServerConfig {" +
+                " serverOption='" + serverOption + '\'' +
                 ", serverDebugMode=" + serverDebugMode +
                 ", hostname='" + hostname + '\'' +
                 ", port=" + port +
-                ", numberOfWorkers=" + numberOfWorkers +
-                ", bufferSize=" + bufferSize +
+                ", numberOfWorkers=" + numberOfWorkers + (numberOfWorkers == 0 ? "(Not set)" : "") +
+                ", bufferSize=" + bufferSize + (bufferSize == 0 ? "(Not set) " : " ") +
                 '}';
     }
 

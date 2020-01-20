@@ -72,6 +72,7 @@ public class HelloWorldServlet extends WebServlet {
                                   |___/ 
 BlueJay version: 1.0
 Web server, Undertow version: Undertow - 2.0.29.Final
+WebServerConfig { serverOption='undertow', serverDebugMode=true, hostname='localhost', port=8085, numberOfWorkers=0(Not set), bufferSize=0(Not set) }
 Server is running on localhost:8085
 -->
 ```
