@@ -62,4 +62,18 @@ public class HelloWorldServlet extends WebServlet {
 }
 ```
 
+#### If you see in console following text, that means everything works fine :)
+```
+   ____  _                _             
+  | __ )| |_   _  ___    | | __ _ _   _ 
+  |  _ \| | | | |/ _ \_  | |/ _` | | | |
+  | |_) | | |_| |  __/ |_| | (_| | |_| |
+  |____/|_|\__,_|\___|\___/ \__,_|\__, |
+                                  |___/ 
+BlueJay version: 1.0
+Web server, Undertow version: Undertow - 2.0.29.Final
+Server is running on localhost:8085
+-->
+```
+
 ## Soon more details..

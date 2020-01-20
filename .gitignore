@@ -1,2 +1,8 @@
 .idea/
 *.iml
+
+HelloWoldTest/target/
+bluejay-framework/target/
+bluejay-server/target/
+*/target/
+
