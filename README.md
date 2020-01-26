@@ -1,6 +1,6 @@
 # BlueJayFramework
 
-BlueJay Framework is an open source java based framework. It is built on top of Undertow embedded web server.
+BlueJay Framework is an open source java based framework. It is built on top of Undertow / Tomcat embedded web server.
 BlueJay application is stand-alone java application and can be started using java -jar.
 
 It is developed for fun, every contribution is welcome.
@@ -12,6 +12,13 @@ It is developed for fun, every contribution is welcome.
         <artifactId>bluejay-framework</artifactId>
         <version>1.0-SNAPSHOT</version>
         <scope>compile</scope>
+    </dependency>
+    
+    <!-- Webserver dependency -->
+    <dependency>
+        <groupId>com.bluejay</groupId>
+        <artifactId>bluejay-undertow</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
 
 ### Quick example of completed BlueJay application in Java:
@@ -28,7 +35,7 @@ public class HelloWorldApplication extends ApplicationMain {
     public static void main(String[] args) {
         BlueJayFramework.startTheWorld(new WebServerConfig()
                 .setHostname(SERVER_HOSTNAME)
-                .setPort(SERVER_PORT), HelloWorldApplication.class);
+                .setPort(SERVER_PORT), HelloWorldApplication.class, args);
     }
 
     @Override
