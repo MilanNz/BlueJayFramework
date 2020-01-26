@@ -1,14 +1,21 @@
 package com.bluejay.server;
 
+
+import com.bluejay.server.exceptions.FailedServerException;
+import java.lang.reflect.Constructor;
+
 public abstract class WebServer {
+    private static final String UNDERTOW_PACKAGE = "com.bluejay.undertow.UndertowServer";
+    private static final String TOMCAT_PACKAGE = "com.bluejay.tomcat.TomcatServer";
+
+    protected WebServerConfig webServerConfig;
     boolean debugMode = false;
-    WebServerConfig webServerConfig;
 
     public WebServer(WebServerConfig config) {
         webServerConfig = config;
     }
 
-    abstract void initServer();
+    public abstract void initServer();
     public abstract void start();
     public abstract void stop();
     public abstract boolean isStarted();
@@ -26,12 +33,27 @@ public abstract class WebServer {
         return debugMode;
     }
 
-    public static WebServer getServerByString(String server, WebServerConfig config) {
+    public static WebServer getServerByString(String server, WebServerConfig config)
+            throws FailedServerException {
+        String serverClassString;
         if (server.equalsIgnoreCase("undertow")) {
-            return new UndertowServer(config);
+            serverClassString = UNDERTOW_PACKAGE;
+        } else if (server.equalsIgnoreCase("tomcat")) {
+            serverClassString = TOMCAT_PACKAGE;
+        } else {
+            throw new FailedServerException("Failed to instance WebServer with name: " + server + ", available servers[undertow, tomcat]");
         }
 
-        // Undertow is a default web server.
-        return new UndertowServer(config);
+        try {
+            Class<?> clazz = Class.forName(serverClassString);
+            if (clazz != null) {
+                Constructor<?> ctor = clazz.getConstructor(WebServerConfig.class);
+                return (WebServer) ctor.newInstance(new Object[]{ config });
+            }
+        } catch (ReflectiveOperationException exception) {
+            throw new FailedServerException("Failed to instance web server: " + exception.getMessage());
+        }
+
+        throw new FailedServerException("Failed to instance web server, check dependency for " + server);
     }
 }

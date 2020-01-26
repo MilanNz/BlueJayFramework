@@ -18,7 +18,6 @@ public class HttpRequest {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
 
-    private HttpServerExchange httpServerExchange;
     private HttpRequestType requestType;
     private Map<String, Object> headerProperties;
     private Map<String, String> queryParams;

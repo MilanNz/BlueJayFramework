@@ -1,23 +1,26 @@
-package com.bluejay.server.http;
+package com.bluejay.server.servlet;
 
-import com.bluejay.server.servlet.WebServlet;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ServletRegister {
     private static final String DEFAULT_SERVLET_KEY = "default_servlet";
     private static Map<String, WebServlet> servletRegister;
 
     static {
-        servletRegister = new HashMap<>();
+        servletRegister = new ConcurrentHashMap<>();
     }
+
     public static void registerServlet(String path, WebServlet easyServlet) {
         servletRegister.put(path, easyServlet);
     }
 
     public static WebServlet getServlet(String path) {
         return servletRegister.get(path);
+    }
+
+    public static void removeServlet(String path) {
+        servletRegister.remove(path);
     }
 
     public static void setDefaultServlet(WebServlet servlet) {

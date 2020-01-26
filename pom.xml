@@ -24,5 +24,7 @@
         <module>bluejay-server</module>
         <module>bluejay-framework</module>
         <module>HelloWoldTest</module>
+        <module>bluejay-tomcat</module>
+        <module>bluejay-undertow</module>
     </modules>
 </project>

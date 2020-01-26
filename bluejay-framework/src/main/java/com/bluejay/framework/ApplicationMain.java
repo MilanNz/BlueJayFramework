@@ -1,7 +1,7 @@
 package com.bluejay.framework;
 
 import com.bluejay.server.annotation.WebServletConfig;
-import com.bluejay.server.http.ServletRegister;
+import com.bluejay.server.servlet.ServletRegister;
 import com.bluejay.server.servlet.WebServlet;
 import org.reflections.Reflections;
 
@@ -15,7 +15,6 @@ public abstract class ApplicationMain {
     public abstract void onApplicationStarted();
 
     public ApplicationMain() {
-//        onApplicationStarted();
     }
 
     public final void registerApplicationServlet(String path, WebServlet servlet) {

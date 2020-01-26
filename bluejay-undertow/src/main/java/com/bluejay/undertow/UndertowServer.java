@@ -1,8 +1,10 @@
-package com.bluejay.server;
+package com.bluejay.undertow;
 
+import com.bluejay.server.WebServer;
+import com.bluejay.server.WebServerConfig;
 import com.bluejay.server.http.HttpRequest;
 import com.bluejay.server.http.HttpResponse;
-import com.bluejay.server.http.ServletRegister;
+import com.bluejay.server.servlet.ServletRegister;
 import com.bluejay.server.servlet.DefaultServlet;
 import com.bluejay.server.servlet.WebServlet;
 import io.undertow.Undertow;

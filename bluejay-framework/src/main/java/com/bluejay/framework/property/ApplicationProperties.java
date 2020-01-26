@@ -28,8 +28,7 @@ public class ApplicationProperties {
     }
 
     public static boolean getPropertyAsBoolean(String key) {
-        String value = properties.get(key);
-        return value != null && Boolean.parseBoolean(value);
+        return Boolean.parseBoolean(properties.get(key));
     }
 
     public static void setProperty(String key, String value) {
