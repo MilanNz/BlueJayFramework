@@ -18,6 +18,8 @@ public class UndertowServer extends WebServer {
     private Undertow undertow;
     private boolean started;
 
+    private UndertowRequestAdapter adapter;
+
     public UndertowServer(WebServerConfig config) {
         super(config);
         initServer();
@@ -33,6 +35,9 @@ public class UndertowServer extends WebServer {
             builder.setWorkerThreads(webServerConfig.getNumberOfWorkers());
         }
 
+        // Init request adapter.
+        adapter = new UndertowRequestAdapter();
+
         // set handler
         builder.setHandler(exchange -> {
             long startRequestTime = 0;
@@ -40,13 +45,14 @@ public class UndertowServer extends WebServer {
                 startRequestTime = System.currentTimeMillis();
             }
 
-            HttpRequest httpRequest = new HttpRequest(exchange);
-            WebServlet servlet = ServletRegister.getServletOrDefault(exchange.getRelativePath());
+            HttpRequest httpRequest = adapter.processServerExchange(exchange);
+            WebServlet servlet = ServletRegister.getServletOrDefault(httpRequest.getRequestRoute());
             HttpResponse response = servlet.handleRequest(httpRequest);
 
             exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, response.getContentType());
             for (Map.Entry<String, Object> header : response.getHeaders().entrySet()) {
-                exchange.getResponseHeaders().put(HttpString.tryFromString(header.getKey()), (String) header.getValue());
+                exchange.getResponseHeaders().put(HttpString.tryFromString(header.getKey()),
+                        (String) header.getValue());
             }
 
             exchange.setStatusCode(response.getCode());

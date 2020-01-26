@@ -11,14 +11,14 @@ public class BlueJayFramework {
     private static BlueJayFramework instance = null;
     private BlueJayApplication blueJayApplication;
 
-    public synchronized static void startTheWorld(WebServerConfig config, Class<?> clazz) {
+    public synchronized static void startTheWorld(WebServerConfig config, Class<?> clazz, String[] args) {
         if (instance == null) {
             instance = new BlueJayFramework();
             instance.initializeApplication(config, clazz);
         }
     }
 
-    public synchronized static void startTheWorld(Class<?> clazz) {
+    public synchronized static void startTheWorld(Class<?> clazz, String[] args) {
         if (instance == null) {
             instance = new BlueJayFramework();
             instance.initializeApplication(null, clazz);

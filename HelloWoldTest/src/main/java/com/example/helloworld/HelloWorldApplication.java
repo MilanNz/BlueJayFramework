@@ -16,7 +16,10 @@ public class HelloWorldApplication extends ApplicationMain {
     public static void main(String[] args) {
         BlueJayFramework.startTheWorld(new WebServerConfig()
                 .setHostname(SERVER_HOSTNAME)
-                .setPort(SERVER_PORT), HelloWorldApplication.class);
+                .setPort(SERVER_PORT), HelloWorldApplication.class, args);
+
+//        Or just like this, without WebServerConfig.
+//        BlueJayFramework.startTheWorld(HelloWorldApplication.class, args);
     }
 
     @Override
