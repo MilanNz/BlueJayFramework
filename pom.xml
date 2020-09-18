@@ -26,5 +26,6 @@
         <module>HelloWoldTest</module>
         <module>bluejay-tomcat</module>
         <module>bluejay-undertow</module>
+        <module>bluejay-jaynio</module>
     </modules>
 </project>

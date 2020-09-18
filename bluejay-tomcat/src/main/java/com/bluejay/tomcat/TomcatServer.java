@@ -11,7 +11,6 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.core.StandardHost;
 import org.apache.catalina.startup.Tomcat;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

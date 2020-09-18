@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 public abstract class WebServer {
     private static final String UNDERTOW_PACKAGE = "com.bluejay.undertow.UndertowServer";
     private static final String TOMCAT_PACKAGE = "com.bluejay.tomcat.TomcatServer";
+    private static final String JAYNIO_PACKAGE = "com.bluejay.jaynio.JayNioServer";
 
     protected WebServerConfig webServerConfig;
     boolean debugMode = false;
@@ -40,6 +41,8 @@ public abstract class WebServer {
             serverClassString = UNDERTOW_PACKAGE;
         } else if (server.equalsIgnoreCase("tomcat")) {
             serverClassString = TOMCAT_PACKAGE;
+        } else if (server.equalsIgnoreCase("jaynio")) {
+            serverClassString = JAYNIO_PACKAGE;
         } else {
             throw new FailedServerException("Failed to instance WebServer with name: " + server + ", available servers[undertow, tomcat]");
         }

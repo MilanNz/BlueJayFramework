@@ -19,6 +19,10 @@ public class HttpResponse {
         return response;
     }
 
+    public static HttpResponse response(String msg, int code) {
+        return new HttpResponse(msg, code);
+    }
+
     public static HttpResponse returnObject(Object object) {
         try {
             return jsonResponse(JsonHelper.objectToJson(object));
